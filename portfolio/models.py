@@ -1,7 +1,7 @@
 from django.db import models
 
 class Stock(models.Model) :
-    name = models.CharField() 
+    name = models.CharField(max_length=100) ## 69 chars seemed to be the biggest, so 100 should safely cover it 
     symbol    =  models.CharField(max_length=5)  
     ask    = models.DecimalField(max_digits=8, decimal_places=2) 
     bid = models.DecimalField(max_digits=8, decimal_places=2)
@@ -16,3 +16,4 @@ class Purchase(models.Model):
     
     def __unicode__(self):
         return self.stock
+       
