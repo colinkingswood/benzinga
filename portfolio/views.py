@@ -20,7 +20,6 @@ class SearchView(View):
     def get(self, request, *args, **kwargs) :
         search_str = self.request.GET.__getitem__('search')
         url = "portfolio?selected=%s" % search_str
-        print url
         return http.HttpResponseRedirect(url)
 
 
@@ -57,7 +56,6 @@ class UpdatePortfolioView(FormView):
         else : 
             # no money, set it $100,000.00
             self.request.session['money'] = '100000.00'  
-        print "*"  , self.request.session['money']
         return super(UpdatePortfolioView, self).get( request, *args, **kwargs) 
 
 
@@ -78,10 +76,8 @@ class UpdatePortfolioView(FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            print "valid"
             return self.form_valid(form, request)
         else:
-            print "invlid"
             return self.form_invalid(form)
     
     

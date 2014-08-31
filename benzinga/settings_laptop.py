@@ -36,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap_toolkit',
     'portfolio'
 )
 
@@ -98,7 +97,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    '/home/colin/Documents/workspace2/benzinga/templates'
+    '/home/colin/Documents/workspace2/benzinga/portfolio/templates'
 )
 
 
