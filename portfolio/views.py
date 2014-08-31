@@ -152,7 +152,7 @@ class UpdatePortfolioView(FormView):
                     purchase.delete()
             
             amount_left = Decimal(self.request.session['money'])
-            self.request.session['money'] = str(amount_left - sold_price)
+            self.request.session['money'] = str(amount_left + sold_price)
             return super(UpdatePortfolioView, self).form_valid(form) 
 
 
@@ -169,6 +169,8 @@ class UpdatePortfolioView(FormView):
     
             except Exception as e : 
                 context['stock_errors'] = "Problem creating stock from json data: " + e.__str__()
+        
+        context['money'] = self.request.session['money']
             
         return context
         

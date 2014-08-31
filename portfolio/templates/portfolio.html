@@ -62,11 +62,19 @@
 	        <div style='float:left;'>
 	        
 	        {% if stock %} 
-		        <div>{{ stock.name}} ({{ stock.symbol}})</div>
-			        <table>
-			        	<tr ><th colaspan='2'>Bid</th><th colaspan='2'>Ask</th></tr>
-			        	<tr><td colaspan='2'>{{ stock.bid}}</td><td colaspan='2'>{{ stock.ask}}</td>
-			        	
+		        <div><h3>{{ stock.name}} ({{ stock.symbol}})</h3></div>
+		        	<br>
+			        <table class='table'>
+			        	<tr>
+			        		<th></th>
+			        		<th>Bid</th>
+			        		<th colspan='2'>Ask</th>
+			        	</tr>
+			        	<tr>
+			        		<td></td>
+			        		<td >{{ stock.bid}}</td>
+			        		<td colspan='2'>{{ stock.ask}}</td>
+			        	</tr>
 			        	<tr>
 				        	<form action=""  method='POST'>
 				        	{% csrf_token %}
@@ -88,10 +96,14 @@
 	        	{% endif %}
 	        </div>
 	        
-	        <div style='float:right;'>
-	        	
+			<div style='float:right;'>
+		             	
 	        	{% if purchase_list %} 
-		        	<table>
+		        	<table class='table'>
+		        	<tr>
+		        		<td colspan='2' ><h3>Current Portfolio</h3></td>
+		        		<td colspan='2' ><h3>Cash: ${{ money }}</h3></td>
+		        	</tr>
 		        	<tr>
 		        		<th>Company</th>
 		        		<th>Quantity</th>
