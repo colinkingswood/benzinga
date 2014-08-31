@@ -9,38 +9,8 @@ from django.db.models import Sum
 
 from .models import Purchase, Stock
 from .forms import PurchaseForm 
-
  
-# class PortfolioView(FormView):
-#     """
-#     This will be the view to generate the main page - a list of stocks, and a form to buy / sell one
-#     """  
-#     
-#     model = Purchase
-#     context_object_name = "stock_list"
-#     template_name = "portfolio.html"
-# #    pagination = 10
-#     
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a relevant context object
-#         context = super(PortfolioView, self).get_context_data(**kwargs)
-#         if self.request.REQUEST.__contains__('selected'):
-#              selected = self.request.REQUEST.__getitem__('selected')
-#              print "selected",  selected 
-#              stock=None
-#              try :  
-#                  stock = Stock.create_from_symbol(selected)
-#              except Exception as e : 
-#                  print "here", e
-#                  context['error_msg'] = "Problem creating stock from json data:" + e.__str__()
-#              context['stock'] = stock
-#              context['purchase_form'] = PurchaseForm(self.request.REQUEST ,initial={} )
-#         else : 
-#             context['stock'] = None
-#         return context 
-# #         return stock 
-#
-# 
+ 
 class SearchView(View):
     """
     This will redirect to the normal view with the querystring added
@@ -54,9 +24,10 @@ class SearchView(View):
         return http.HttpResponseRedirect(url)
 
 
+
 class UpdatePortfolioView(FormView):
     """
-  
+    This will be the main view that processes the POST reqests (buy and sell), then generates teh page
     """
     form_class = PurchaseForm
     template_name = 'portfolio.html'
