@@ -1,5 +1,141 @@
-{% load bootstrap_toolkit %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load staticfiles %}
+	{% load bootstrap_toolkit %}
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Simple Stock Exchange</title>
+
+    <!-- Bootstrap core CSS -->
+	<!--    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+
+    <!-- Custom styles for this template -->
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Simple Stock exchange</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" action="search", method='GET'>
+            <input type="text" class="form-control" placeholder="Enter Symbol..." name="search" >
+            <input type="submit" value="Lookup" class="submit"/>
+          </form>
+        </div>
+      </div>
+    </div>
+
+	<br>
+	<br>
+	<br>
+	
+	<div class="_inline_group table-responsive" id="paidby_set-group" >
+		<div class="tabular inline-related table-responsive" >
+        	<div class="col-sm-9 col-sm-offset-0 col-md-10 col-md-offset-0 main">
+	       
+	        
+	        <div style='float:left;'>
+	        
+	        {% if stock %} 
+		        <div>{{ stock.name}} ({{ stock.symbol}})</div>
+			        <table>
+			        	<tr ><th colaspan='2'>Bid</th><th colaspan='2'>Ask</th></tr>
+			        	<tr><td colaspan='2'>{{ stock.bid}}</td><td colaspan='2'>{{ stock.ask}}</td>
+			        	
+			        	<tr>
+				        	<form action=""  method='POST'>
+				        	{% csrf_token %}
+				        	<td> {{ form.stock.errrors }}{{ form.stock }} Quantity</td>				        		 
+				        	<td>{{ form.quantity.errors }}{{ form.quantity }}</td>
+				        	<td>
+				        		<input type='submit' name='buy_or_sell' value="buy" ></input>
+				        	</td>
+				        	<td>
+				        		<input type='submit' name='buy_or_sell' value="sell" ></input>
+				        	</td>
+				        	
+				        	</form>
+						</tr>			        	
+			        </table>
+		    	{% else %}
+	        	{% if stock_errors %}<h3>{{ stock_errors }}</h3>{% endif %}
+	        	<h3>No stock selected. Enter symbol in search bar.<h3>
+	        	{% endif %}
+	        </div>
+	        
+	        <div style='float:right;'>
+	        	
+	        	{% if purchase_list %} 
+		        	<table>
+		        	<tr>
+		        		<th>Company</th>
+		        		<th>Quantity</th>
+		        		<th>PricePaid</th>
+		        		<th></th>
+		        	</tr>
+		        	{% for purchase in purchase_list %}
+		        	
+		        	<tr>
+		           		<td>{{ purchase.stock.name }}</td>
+		        		<td>{{ purchase.quantity }}</td>
+		        		<td>{{ purchase.price_paid }}</td>
+		        		<td><a href='?selected={{ purchase.stock.symbol }}'>view_stock</a></td>
+		        	</tr>
+		        	{% endfor %}
+		        	</table>
+		        {% else %}
+		        	<div><h3>Your portfolio is empty<h3></div> 
+		        {% endif %}
+	        </div>
+	       
+	       
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}dist/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/docs.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+<!-- bootstrap examples below- 
 # Using a filter
 
 <form action="/url/to/submit/" method="post">
@@ -19,3 +155,4 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+-->
