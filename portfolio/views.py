@@ -136,6 +136,7 @@ class UpdatePortfolioView(FormView):
         else:
             # I assume that we may have multiple purchases of the same stock
             # Go through list of stocks, deleteing, until we have reached the sell quantity
+            
             sold_price = quantity_to_sell * stock.bid
             for purchase in purchase_qs : 
                 
@@ -153,7 +154,7 @@ class UpdatePortfolioView(FormView):
             
             amount_left = Decimal(self.request.session['money'])
             self.request.session['money'] = str(amount_left + sold_price)
-            return super(UpdatePortfolioView, self).form_valid(form) 
+            return super(UpdatePortfolioView, self).form_valid(form)  
 
 
 
