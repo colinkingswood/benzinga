@@ -85,6 +85,10 @@ USE_L10N = True
 USE_TZ = True
 
 
+# TEMPLATE_DIRS = (
+#     '/home/colin/Documents/workspace2/benzinga/templates'
+# )
+
 
 # Cookie name. This can be whatever you want.
 SESSION_COOKIE_NAME = 'sessionid'

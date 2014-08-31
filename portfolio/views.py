@@ -27,7 +27,7 @@ class SearchView(View):
 
 class UpdatePortfolioView(FormView):
     """
-    This will be the main view that processes the POST reqests (buy and sell), then generates teh page
+    This will be the main view that processes the POST reqests (buy and sell), then generates the page
     """
     form_class = PurchaseForm
     template_name = 'portfolio.html'
@@ -47,6 +47,7 @@ class UpdatePortfolioView(FormView):
              return initial 
  
 
+
     def get(self, request, *args, **kwargs):
         """
         Override the get method, and set a sessoon cookie with the amount
@@ -58,6 +59,7 @@ class UpdatePortfolioView(FormView):
             self.request.session['money'] = '100000.00'  
         print "*"  , self.request.session['money']
         return super(UpdatePortfolioView, self).get( request, *args, **kwargs) 
+
 
 
 
@@ -81,15 +83,9 @@ class UpdatePortfolioView(FormView):
         else:
             print "invlid"
             return self.form_invalid(form)
-
-
-     
-#     def form_invalid(self, form):
-#         return super(UpdatePortfolioView, self).form_invalid(form) 
-
-
-
     
+    
+
     def form_valid(self, form, request ):
         ##  do some checks here, for money and amount, not the best place, 
         ## ideally I would override the is_valid in forms, but that will probably take me too long. 
@@ -101,6 +97,7 @@ class UpdatePortfolioView(FormView):
         elif buy_or_sell == 'sell':
             return self.sell_stock(form , cd)
             
+    
      
             
     def buy_stock(self, form, cleaned_data):
