@@ -105,13 +105,8 @@ TEMPLATE_DIRS = (
 SESSION_COOKIE_NAME = 'sessionid'
 # The module to store sessions data.
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-# Age of cookie, in seconds (default: 1 week).
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 1
 # Whether a user's session cookie expires when the Web browser is closed
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# Whether the session cookie should be secure (https:// only)
-# Whether the session cookie should be secure (https:// only).
-SESSION_COOKIE_SECURE = False
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.JSONSerializer'
 

@@ -98,12 +98,13 @@
 	        
 			<div style='float:right;'>
 		             	
+        		<table class='table'>
+	        	<tr>
+	        		<td colspan='2' ><h3>Current Portfolio</h3></td>
+	        		<td colspan='2' ><h3>Cash: ${{ money }}</h3></td>
+	        	</tr>
+	        
 	        	{% if purchase_list %} 
-		        	<table class='table'>
-		        	<tr>
-		        		<td colspan='2' ><h3>Current Portfolio</h3></td>
-		        		<td colspan='2' ><h3>Cash: ${{ money }}</h3></td>
-		        	</tr>
 		        	<tr>
 		        		<th>Company</th>
 		        		<th>Quantity</th>
@@ -120,8 +121,10 @@
 		        	</tr>
 		        	{% endfor %}
 		        	</table>
+		        
 		        {% else %}
-		        	<div><h3>Your portfolio is empty<h3></div> 
+		        	<tr><td colspan='4'>Your portfolio is empty</td></tr> 
+		        	</table>
 		        {% endif %}
 	        </div>
 	       

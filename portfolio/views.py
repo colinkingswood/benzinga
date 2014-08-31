@@ -56,6 +56,11 @@ class UpdatePortfolioView(FormView):
         else : 
             # no money, set it $100,000.00
             self.request.session['money'] = '100000.00'  
+            
+            # clear Purchase objects from previosu sessions
+            # I am assunming only one user
+            Purchase.objects.all().delete()
+            
         return super(UpdatePortfolioView, self).get( request, *args, **kwargs) 
 
 
