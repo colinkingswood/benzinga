@@ -110,9 +110,13 @@ class UpdatePortfolioView(FormView):
         else:
             print "invlid"
             return self.form_invalid(form)
+
+
      
 #     def form_invalid(self, form):
 #         return super(UpdatePortfolioView, self).form_invalid(form) 
+
+
 
     
     def form_valid(self, form, request ):
@@ -122,10 +126,11 @@ class UpdatePortfolioView(FormView):
         buy_or_sell = request.POST.get('buy_or_sell')
         
         if buy_or_sell == 'buy' : 
-            return self.buy_stock(form)
+            return self.buy_stock(form, cd)
         elif buy_or_sell == 'sell':
             return self.sell_stock(form , cd)
             
+     
             
     def buy_stock(self, form, cleaned_data):
               
@@ -140,7 +145,7 @@ class UpdatePortfolioView(FormView):
             return self.form_invalid(form)
         
         else:
-            # create the purchase object in the databse
+            # create the purchase object in the database
             purchase = Purchase(
                      quantity = cleaned_data['quantity'],
                      stock = cleaned_data['stock'] ,
@@ -157,27 +162,34 @@ class UpdatePortfolioView(FormView):
         quantity_to_sell = cleaned_data['quantity']
              
         # first get the amount of money left, 
-        # I assume taht we may have multiple purchases of teh same stock
-        stock_qs = Purchase.objects.filter(stock__symbol=stock.symbol)
-        stock_quantity  = stock_qs.aggregate(Sum('quantity'))['quantity_sum']
+        purchase_qs = Purchase.objects.filter(stock__symbol=stock.symbol).order_by('quantity')
+        stock_quantity  = purchase_qs.aggregate(Sum('quantity'))['quantity__sum']
         
-        if  quantity_to_sell > stock_left: 
+        if  quantity_to_sell > stock_quantity: 
             form._errors = {'quantity': mark_safe("You don't have enough stock to sell<br>")}
             return self.form_invalid(form)
+    
         else:
+            # I assume that we may have multiple purchases of the same stock
+            # Go through list of stocks, deleteing, until we have reached the sell quantity
+            sold_price = quantity_to_sell * stock.bid
+            for purchase in purchase_qs : 
+                
+                if quantity_to_sell < 0 : 
+                    break
+                
+                if purchase.quantity > quantity_to_sell:
+                    purchase.quantity = purchase.quantity - quantity_to_sell
+                    purchase.save()
+                    quantity_to_sell = 0
+                     
+                elif purchase.quantity <= quantity_to_sell : 
+                    quantity_to_sell = quantity_to_sell - purchase.quantity 
+                    purchase.delete()
             
-            ## calculate the price, add it to total
-            self.request.session['money'] = str(amount_left - total_cost)
-        
-        
-#         purchase = Purchase(
-#                  quantity = cleaned_data['quantity'],
-#                  stock = cleaned_data['stock'] ,
-#                  price_paid = cleaned_data['stock'].ask
-#         ) 
-#         
-#         purchase.save() 
-#         return super(UpdatePortfolioView, self).form_valid(form) 
+            amount_left = Decimal(self.request.session['money'])
+            self.request.session['money'] = str(amount_left - sold_price)
+            return super(UpdatePortfolioView, self).form_valid(form) 
 
 
 
